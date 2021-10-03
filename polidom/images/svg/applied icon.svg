@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="94" height="94" viewBox="0 0 94 94">
+  <defs>
+    <filter id="Rectangle_639_copy_6" x="0" y="0" width="94" height="94" filterUnits="userSpaceOnUse">
+      <feOffset dx="-2.724" dy="5.346" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="9" result="blur"/>
+      <feFlood flood-color="#7364f8" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="applied_icon" data-name="applied icon" transform="translate(-1605.276 -1439.346)">
+    <g transform="matrix(1, 0, 0, 1, 1605.28, 1439.35)" filter="url(#Rectangle_639_copy_6)">
+      <circle id="Rectangle_639_copy_6-2" data-name="Rectangle 639 copy 6" cx="20" cy="20" r="20" transform="translate(29.72 21.65)" fill="#2d1eeb" opacity="0.2"/>
+    </g>
+    <path id="Shape_537" data-name="Shape 537" d="M1653.3,1484.033l.551-.786,4.679-6.682a1.373,1.373,0,0,1,1.41-.535,1.316,1.316,0,0,1,1.04,1.063,1.2,1.2,0,0,1-.211.9q-.863,1.233-1.73,2.464-2.089,2.982-4.18,5.963a1.361,1.361,0,0,1-1.883.326,1.536,1.536,0,0,1-.118-.1q-1.725-1.636-3.448-3.274a1.076,1.076,0,0,1-.329-1.179,1.122,1.122,0,0,1,1.587-.582,1.527,1.527,0,0,1,.365.258c.735.69,1.465,1.385,2.2,2.079A.927.927,0,0,1,1653.3,1484.033Z" fill="#2c1deb"/>
+  </g>
+</svg>
