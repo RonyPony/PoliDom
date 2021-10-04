@@ -2,22 +2,22 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../assets.dart';
-
 class HomeLaunchPad extends StatefulWidget {
   final Color backgroundColor;
   final String title;
   final String subtitle;
   final String svg;
   final String onTapRouteName;
-  const HomeLaunchPad({
-    Key key,
-    this.subtitle,
-    this.title,
-    this.backgroundColor,
-    this.svg,
-    this.onTapRouteName,
-  }) : super(key: key);
+  final bool isSmall;
+  const HomeLaunchPad(
+      {Key key,
+      this.subtitle,
+      this.title,
+      this.backgroundColor,
+      this.svg,
+      this.onTapRouteName,
+      this.isSmall})
+      : super(key: key);
 
   @override
   _HomeLaunchPadState createState() => _HomeLaunchPadState();
@@ -26,10 +26,21 @@ class HomeLaunchPad extends StatefulWidget {
 class _HomeLaunchPadState extends State<HomeLaunchPad> {
   @override
   Widget build(BuildContext context) {
+    bool _isSmall;
+    if (widget.isSmall != null) {
+      _isSmall = widget.isSmall;
+    } else {
+      _isSmall = false;
+    }
     SvgPicture svgPic = SvgPicture.asset(
       widget.svg,
       placeholderBuilder: (context) => CircularProgressIndicator(),
-      height: MediaQuery.of(context).size.height * .08,
+      height: !_isSmall
+          ? MediaQuery.of(context).size.height * .08
+          : MediaQuery.of(context).size.height * .03,
+      width: !_isSmall
+          ? MediaQuery.of(context).size.width * .08
+          : MediaQuery.of(context).size.width * .03,
     );
     return GestureDetector(
       onTap: () {
@@ -42,10 +53,12 @@ class _HomeLaunchPadState extends State<HomeLaunchPad> {
             Container(
               padding: EdgeInsets.only(
                   right: MediaQuery.of(context).size.height * .1,
-                  bottom: MediaQuery.of(context).size.height * .03),
+                  bottom:
+                      !_isSmall ? MediaQuery.of(context).size.height * .03 : 0),
               child: Container(
                   padding: EdgeInsets.all(5),
                   decoration: BoxDecoration(
+
                       // color: widget.backgroundColor.withOpacity(.2),
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   child: svgPic),
@@ -59,14 +72,14 @@ class _HomeLaunchPadState extends State<HomeLaunchPad> {
                   Text(
                     widget.title.toUpperCase(),
                     style: TextStyle(
-                        fontSize: 20,
+                        fontSize: !_isSmall ? 20 : 12,
                         color: Colors.black.withOpacity(1),
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     widget.subtitle.toUpperCase(),
                     style: TextStyle(
-                        fontSize: 18,
+                        fontSize: !_isSmall ? 18 : 10,
                         color: widget.backgroundColor.withOpacity(0.7)),
                   ),
                 ],
@@ -77,12 +90,16 @@ class _HomeLaunchPadState extends State<HomeLaunchPad> {
             ),
           ],
         ),
-        height: MediaQuery.of(context).size.height * .23,
-        width: MediaQuery.of(context).size.width * .45,
+        height: !_isSmall
+            ? MediaQuery.of(context).size.height * .23
+            : MediaQuery.of(context).size.height * .15,
+        width: !_isSmall
+            ? MediaQuery.of(context).size.width * .45
+            : MediaQuery.of(context).size.width * .28,
         decoration: BoxDecoration(
             color: Colors.white, //widget.backgroundColor.withOpacity(.3),
             border: Border.all(
-              width: 0,
+              width: 2,
               color: widget.backgroundColor.withOpacity(.3),
             ),
             borderRadius: BorderRadius.all(Radius.circular(18))),
