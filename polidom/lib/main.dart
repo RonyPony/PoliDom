@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:polidom/Screens/authentication/login_screen.dart';
 import 'package:polidom/Screens/home_screen.dart';
 import 'package:polidom/routes.dart';
 import 'theme/theme.dart';
@@ -31,6 +32,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return HomeScreen();
+    return LoginScreen();
   }
 }

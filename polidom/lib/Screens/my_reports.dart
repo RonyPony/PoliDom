@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:polidom/Screens/authentication/login_screen.dart';
 import 'package:polidom/Widgets/menu_inferior.dart';
 import 'package:polidom/theme/polidomColors.dart';
 
@@ -43,7 +44,15 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
           SizedBox(
             width: MediaQuery.of(context).size.width * .02,
           ),
-          Container(padding: EdgeInsets.only(right: 20), child: logout),
+          Container(
+              padding: EdgeInsets.only(right: 20),
+              child: GestureDetector(
+                child: logout,
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, LoginScreen.routeName, (route) => false);
+                },
+              )),
           SizedBox(
             width: MediaQuery.of(context).size.width * .02,
           ),
