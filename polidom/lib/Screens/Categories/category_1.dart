@@ -87,8 +87,8 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
               Colors.purple, SvgAssets.policeIcon, PoliceFormScreen.routeName),
           buildLaunchPads("ATRACO", "REPORTA UN NUEVO ASALTO", Colors.blue,
               SvgAssets.policeIcon, ProfileScreen.routeName),
-          buildLaunchPads("RUIDO", "REPORTA CONTAMINACION SONORA",
-              Colors.redAccent, SvgAssets.policeIcon, ProfileScreen.routeName),
+          buildLaunchPads("RUIDO", "REPORTA MUSICA ALTA", Colors.redAccent,
+              SvgAssets.policeIcon, ProfileScreen.routeName),
         ],
       ),
     );
@@ -117,8 +117,8 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
         children: [
           buildLaunchPads("VIOLENCIA SEXUAL", "VIOLACIONES", Colors.orange,
               SvgAssets.policeIcon, ProfileScreen.routeName),
-          buildLaunchPads("VIOLENCIA FAMILIAR", "ABUSO INTRAFAMILIAR",
-              Colors.green, SvgAssets.policeIcon, ProfileScreen.routeName),
+          buildLaunchPads("VIOLENCIA FAMILIAR", "INTRAFAMILIAR", Colors.green,
+              SvgAssets.policeIcon, ProfileScreen.routeName),
           buildLaunchPads("VIOLENCIA CALLEJERA", "VANDALISMO", Colors.pink,
               SvgAssets.policeIcon, ProfileScreen.routeName),
         ],
@@ -149,8 +149,8 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
         children: [
           buildLaunchPads("ACCIDENTE DE TRANSITO", "CHOQUES", Colors.orange,
               SvgAssets.policeIcon, ProfileScreen.routeName),
-          buildLaunchPads("VEHICULO ABANDONADO", "COCHES ABANDONADOS",
-              Colors.green, SvgAssets.policeIcon, ProfileScreen.routeName),
+          buildLaunchPads("VEHICULO ABANDONADO", "CARROS", Colors.green,
+              SvgAssets.policeIcon, ProfileScreen.routeName),
           buildLaunchPads("SUSTANCIAS PROHIVIDAS", "DROGAS", Colors.pink,
               SvgAssets.policeIcon, ProfileScreen.routeName),
         ],

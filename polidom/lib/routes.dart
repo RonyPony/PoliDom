@@ -7,6 +7,9 @@ import 'package:polidom/Screens/authentication/login_screen.dart';
 import 'package:polidom/Screens/my_reports.dart';
 import 'package:polidom/Screens/perfil.dart';
 
+import 'Screens/Forms/location_picker.dart';
+import 'Screens/Forms/pickup_location_screen.dart';
+
 Map<String, WidgetBuilder> getAllRoutes() {
   return <String, WidgetBuilder>{
     HomeScreen.routeName: (BuildContext context) => HomeScreen(),
@@ -16,5 +19,9 @@ Map<String, WidgetBuilder> getAllRoutes() {
     ProfileScreen.routeName: (BuildContext context) => ProfileScreen(),
     CategoryOneScreen.routeName: (BuildContext context) => CategoryOneScreen(),
     PoliceFormScreen.routeName: (BuildContext context) => PoliceFormScreen(),
+    SelectExactLocationScreen.routeName: (BuildContext context) =>
+        SelectExactLocationScreen(),
+    PickupLocationScreen.routeName: (BuildContext context) =>
+        PickupLocationScreen(),
   };
 }

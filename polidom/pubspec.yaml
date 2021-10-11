@@ -25,9 +25,16 @@ dependencies:
     sdk: flutter
   flutter_svg: ^0.18.1
   flutter_native_splash: ^0.3.2
-  #file_picker: ^2.1.7
-  
-    
+  photo: ^0.4.8
+  picker: ^1.0.6
+  geocoder: ^0.2.1
+  search_map_place: ^0.3.0
+  google_maps_flutter: ^0.5.13
+  permission_handler: ^5.1.0+2
+  provider: ^4.3.3
+  simple_location_picker: ^0.0.3
+  geolocator: ^6.2.1
+  shared_preferences: ^0.5.12+4
 
 
   # The following adds the Cupertino Icons font to your application.
