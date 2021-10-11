@@ -3,6 +3,8 @@ import 'package:polidom/Providers/location_provider.dart';
 import 'package:polidom/Screens/authentication/login_screen.dart';
 import 'package:polidom/routes.dart';
 import 'package:provider/provider.dart';
+import 'Contracts/reports_contract.dart';
+import 'Providers/report_provider.dart';
 import 'Services/location_service.dart';
 import 'theme/theme.dart';
 
@@ -11,12 +13,15 @@ void main() {
 }
 
 class PolidomApp extends StatelessWidget {
+  ReportsServiceContract _reportContract;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (context) => LocationProvider(AddressService()))
+            create: (context) => LocationProvider(AddressService())),
+        ChangeNotifierProvider(
+            create: (context) => ReportProvider(_reportContract))
       ],
       child: MaterialApp(
         routes: getAllRoutes(),

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polidom/Models/report_model.dart';
 import 'package:polidom/Models/user_location_model.dart';
 import 'package:polidom/Providers/location_provider.dart';
+import 'package:polidom/Providers/report_provider.dart';
 import 'package:polidom/Screens/Forms/pickup_location_screen.dart';
 import 'package:polidom/Widgets/menu_inferior.dart';
 import 'package:photo/photo.dart';
@@ -21,7 +23,7 @@ class PoliceFormScreen extends StatefulWidget {
 class _PoliceFormScreenState extends State<PoliceFormScreen> {
   List<File> imagesFiles = List<File>();
   String _selectedLocation = 'Toca para seleccionar la ubicacion del reporte';
-
+  String _reportDescription;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +35,8 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
           children: [
             buildReportDetailSection(),
             buildProofFileSection(),
-            buildMapSection()
+            buildMapSection(),
+            buildSendBtn()
           ],
         ),
       ),
@@ -330,6 +333,43 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
         ),
         height: MediaQuery.of(context).size.height * .3,
         width: MediaQuery.of(context).size.width * .95,
+      ),
+    );
+  }
+
+  buildSendBtn() {
+    return Container(
+      height: 50,
+      width: 250,
+      decoration: BoxDecoration(
+          color: Colors.red.withOpacity(.5),
+          borderRadius: BorderRadius.circular(20)),
+      child: FlatButton(
+        onPressed: () async {
+          final locationProvider =
+              Provider.of<LocationProvider>(context, listen: false);
+          final reportsProvider =
+              Provider.of<ReportProvider>(context, listen: false);
+          if (locationProvider.wasSaved) {
+            Map loc = await locationProvider.getSelectedAddress();
+            UserLocation locacion = getLocationFromMap(loc);
+            Ubicacion ubi = Ubicacion();
+            ubi.latitude = double.parse(locacion.latitude);
+            ubi.longitude = double.parse(locacion.longitude);
+            Report policeReport = Report();
+            policeReport.creationDate = DateTime.now().toString();
+            policeReport.description = _reportDescription;
+            policeReport.reportType = 1;
+            policeReport.reporterUserID = 132;
+            policeReport.ubicacion = ubi;
+
+            reportsProvider.placePoliceReport(policeReport);
+          }
+        },
+        child: Text(
+          'Enviar Reporte',
+          style: TextStyle(color: Colors.white, fontSize: 25),
+        ),
       ),
     );
   }
