@@ -353,15 +353,12 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
           if (locationProvider.wasSaved) {
             Map loc = await locationProvider.getSelectedAddress();
             UserLocation locacion = getLocationFromMap(loc);
-            Ubicacion ubi = Ubicacion();
-            ubi.latitude = double.parse(locacion.latitude);
-            ubi.longitude = double.parse(locacion.longitude);
             Report policeReport = Report();
             policeReport.creationDate = DateTime.now().toString();
             policeReport.description = _reportDescription;
             policeReport.reportType = 1;
             policeReport.reporterUserID = 132;
-            policeReport.ubicacion = ubi;
+            policeReport.ubicacion = locacion;
 
             reportsProvider.placePoliceReport(policeReport);
           }

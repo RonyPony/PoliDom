@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
-class UserLocation {
-  // int id;
+class NewUserLocation {
   int reportId;
   double longitude;
   double latitude;
@@ -13,9 +10,8 @@ class UserLocation {
   String sector;
   DateTime creationDate;
 
-  UserLocation();
-  UserLocation.fromJson(Map<String, dynamic> json) {
-    // id = json['id'];
+  NewUserLocation();
+  NewUserLocation.fromJson(Map<String, dynamic> json) {
     reportId = json['reportId'];
     longitude = json['longitude'];
     latitude = json['latitude'];
@@ -28,7 +24,6 @@ class UserLocation {
   }
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    // data['id'] = this.id;
     data['reportId'] = this.reportId;
     data['longitude'] = this.longitude;
     data['latitude'] = this.latitude;
@@ -47,8 +42,8 @@ class Coordenadas {
   String latitude;
 }
 
-UserLocation getLocationFromMap(Map mapa) {
-  UserLocation location = UserLocation();
+NewUserLocation getLocationFromMap(Map mapa) {
+  NewUserLocation location = NewUserLocation();
   location.latitude = getLatitude(mapa["coordinates"]);
   location.longitude = getLongitude(mapa["coordinates"]);
   location.zipCode = mapa["postalCode"];
