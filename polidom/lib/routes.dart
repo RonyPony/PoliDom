@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:polidom/Screens/Categories/category_1.dart';
+import 'package:polidom/Screens/Categories/othersReports.dart';
 import 'package:polidom/Screens/Forms/police_screen.dart';
 import 'package:polidom/Screens/authentication/register_screen.dart';
 import 'package:polidom/Screens/home_screen.dart';
@@ -9,6 +10,7 @@ import 'package:polidom/Screens/perfil.dart';
 
 import 'Screens/Forms/location_picker.dart';
 import 'Screens/Forms/pickup_location_screen.dart';
+import 'Screens/report_detail.dart';
 
 Map<String, WidgetBuilder> getAllRoutes() {
   return <String, WidgetBuilder>{
@@ -19,9 +21,13 @@ Map<String, WidgetBuilder> getAllRoutes() {
     ProfileScreen.routeName: (BuildContext context) => ProfileScreen(),
     CategoryOneScreen.routeName: (BuildContext context) => CategoryOneScreen(),
     PoliceFormScreen.routeName: (BuildContext context) => PoliceFormScreen(),
+    OtherReportsScreen.routeName: (BuildContext context) =>
+        OtherReportsScreen(),
     SelectExactLocationScreen.routeName: (BuildContext context) =>
         SelectExactLocationScreen(),
     PickupLocationScreen.routeName: (BuildContext context) =>
         PickupLocationScreen(),
+    ReportDetailsScreen.routeName: (BuildContext context) =>
+        ReportDetailsScreen(),
   };
 }

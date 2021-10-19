@@ -38,9 +38,9 @@ class _MenuInferiorState extends State<MenuInferior> {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.settings,
+            Icons.person_rounded,
           ),
-          label: 'AJUSTES',
+          label: 'PERFIL',
         ),
       ],
       currentIndex: _selectedIndex,

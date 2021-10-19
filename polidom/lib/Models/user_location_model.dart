@@ -57,6 +57,7 @@ UserLocation getLocationFromMap(Map mapa) {
   location.provincia = mapa["adminArea"];
   location.sector = mapa["subLocality"];
   location.localidad = mapa["locality"];
+  location.reportId = 123;
   return location;
 }
 

@@ -26,9 +26,10 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
   String _reportDescription;
   @override
   Widget build(BuildContext context) {
+    bool monVal = true;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulario Policial'),
+        title: Text('Formulario Policial de Robos'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -47,6 +48,7 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
   }
 
   buildReportDetailSection() {
+    bool annony = false;
     return Container(
       margin: EdgeInsets.all(7),
       decoration: BoxDecoration(
@@ -85,17 +87,31 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
                   child: TextFormField(
                     keyboardType: TextInputType.multiline,
                     maxLines: 5,
+                    onChanged: (value) {
+                      _reportDescription = value;
+                    },
                     decoration: InputDecoration(
                       hintText: 'Detalles del caso',
                       border: InputBorder.none,
                     ),
                   ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      annony = !annony;
+                    });
+                  },
+                  child: Chip(
+                      backgroundColor:
+                          !annony ? Colors.transparent : Colors.blue,
+                      label: Text('Enviar de forma anonima')),
                 )
               ],
             ))
           ],
         ),
-        height: MediaQuery.of(context).size.height * .24,
+        height: MediaQuery.of(context).size.height * .35,
         width: MediaQuery.of(context).size.width * .95,
       ),
     );
@@ -352,7 +368,7 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
               Provider.of<ReportProvider>(context, listen: false);
           if (locationProvider.wasSaved) {
             Map loc = await locationProvider.getSelectedAddress();
-            UserLocation locacion = getLocationFromMap(loc);
+            final UserLocation locacion = getLocationFromMap(loc);
             Report policeReport = Report();
             policeReport.creationDate = DateTime.now().toString();
             policeReport.description = _reportDescription;
@@ -369,5 +385,15 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
         ),
       ),
     );
+  }
+
+  Widget checkbox(
+      {String title, bool initValue, Function(bool boolValue) onChanged}) {
+    return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text(title),
+          Checkbox(value: initValue, onChanged: (b) => onChanged(b))
+        ]);
   }
 }

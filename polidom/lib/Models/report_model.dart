@@ -5,6 +5,8 @@ class Report {
   int reportType;
   int reporterUserID;
   String creationDate;
+  bool isCompleted;
+  int assignedAuthorityId;
   UserLocation ubicacion;
   String description;
 
@@ -35,7 +37,8 @@ class Report {
     data['reporterUserID'] = this.reporterUserID;
     data['creationDate'] = this.creationDate;
     if (this.ubicacion != null) {
-      data['ubicacion'] = loc.toJson();
+      // data['ubicacion'] = loc.toJson();
+      data['ubicacion'] = this.ubicacion;
     }
     data['description'] = this.description;
     return data;

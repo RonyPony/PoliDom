@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polidom/Models/account_to_login_model.dart';
+import 'package:polidom/Providers/auth_provider.dart';
 import 'package:polidom/Screens/authentication/register_screen.dart';
+import 'package:provider/provider.dart';
 
 import '../home_screen.dart';
 
@@ -13,6 +16,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _email = TextEditingController();
+  TextEditingController _pass = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
               //padding: const EdgeInsets.only(left:15.0,right: 15.0,top:0,bottom: 0),
               padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: _email,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Email',
@@ -51,6 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   left: 15.0, right: 15.0, top: 15, bottom: 0),
               //padding: EdgeInsets.symmetric(horizontal: 15),
               child: TextField(
+                controller: _pass,
                 obscureText: true,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(),
@@ -73,8 +81,17 @@ class _LoginScreenState extends State<LoginScreen> {
               decoration: BoxDecoration(
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, HomeScreen.routeName);
+                onPressed: () async {
+                  final authProvider =
+                      Provider.of<AuthProvider>(context, listen: false);
+                  if (_email.text.length >= 1 && _pass.text.length >= 1) {
+                    AccountToLogin loginInfo = AccountToLogin(
+                        email: _email.text, password: _pass.text);
+                    if (await authProvider.login(loginInfo, context)) {
+                      Navigator.pushNamedAndRemoveUntil(
+                          context, HomeScreen.routeName, (route) => false);
+                    }
+                  }
                 },
                 child: Text(
                   'Login',

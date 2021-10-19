@@ -17,7 +17,7 @@ class ReportService implements ReportServiceContract {
   Future<bool> savePliceReport(Report data) async {
     try {
       var dio = Dio();
-
+      String body = json.encode(data);
       Response response = await dio.post(
         '$baseApiUrl/reports',
         options: Options(headers: {
@@ -25,8 +25,11 @@ class ReportService implements ReportServiceContract {
         }),
         data: jsonEncode(data),
       );
-      print(response.data);
-    } catch (e) {}
+      print(
+          'Respuesta del api >${response.statusCode} - ${response.statusMessage}');
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
@@ -44,6 +47,37 @@ class ReportService implements ReportServiceContract {
         });
       }
       return reports;
+    } catch (e) {}
+  }
+
+  @override
+  String getReportTypeName(int reportType) {
+    switch (reportType) {
+      case 0808:
+        return "Error cargando el tipo de reporte";
+        break;
+      case 0:
+        return "XXX";
+        break;
+      case 1:
+        return "Reporte Policial de Robo";
+        break;
+      case 2:
+        return "Reporte Policial de Atraco";
+        break;
+      default:
+        return "Otro tipo de Reporte";
+    }
+  }
+
+  @override
+  Future<Report> getReportById(int id) async {
+    try {
+      var dio = Dio();
+      Response response = await dio.get('$baseApiUrl/reports/$id');
+
+      Report reporte = Report.fromJson(response.data);
+      return reporte;
     } catch (e) {}
   }
 }

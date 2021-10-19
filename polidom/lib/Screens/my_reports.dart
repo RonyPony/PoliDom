@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:polidom/Models/report_model.dart';
 import 'package:polidom/Providers/report_provider.dart';
 import 'package:polidom/Screens/authentication/login_screen.dart';
+import 'package:polidom/Screens/report_detail.dart';
 import 'package:polidom/Widgets/menu_inferior.dart';
 import 'package:polidom/theme/polidomColors.dart';
 import 'package:provider/provider.dart';
@@ -21,47 +22,17 @@ class MyReportsScreen extends StatefulWidget {
 class _MyReportsScreenState extends State<MyReportsScreen> {
   @override
   Widget build(BuildContext context) {
-    SvgPicture logout = SvgPicture.asset(
-      SvgAssets.logoutIcon,
-      color: Colors.purple.withOpacity(.5),
-      placeholderBuilder: (context) => CircularProgressIndicator(),
-      height: 30,
-    );
     final reportsProvider = Provider.of<ReportProvider>(context, listen: false);
     Future<List<Report>> allReports = reportsProvider.retriveAllReports();
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: MediaQuery.of(context).size.height * .14,
         elevation: 0,
-        // title: Text(
-        //   'Mis reportes',
-        //   style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-        // ),
-        leading: Container(
-          padding: EdgeInsets.only(left: 20),
-          child: SvgPicture.asset(
-            SvgAssets.editIcon,
-            color: Colors.purple.withOpacity(.5),
-          ),
+        centerTitle: true,
+        title: Text(
+          'MIS REPORTES',
+          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
         ),
-        actions: [
-          // buildReportCaunter(),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .02,
-          ),
-          Container(
-              padding: EdgeInsets.only(right: 20),
-              child: GestureDetector(
-                child: logout,
-                onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
-                      context, LoginScreen.routeName, (route) => false);
-                },
-              )),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * .02,
-          ),
-        ],
       ),
       body: SingleChildScrollView(
         child: FutureBuilder<List<Report>>(
@@ -74,7 +45,12 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
                     return ListTile(
-                      // dense: false,
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, ReportDetailsScreen.routeName,
+                            arguments: snapshot.data[index].id);
+                      },
+                      dense: false,
                       subtitle: Text(snapshot.data[index].description ??
                           "Sin Descripcion"),
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
@@ -83,7 +59,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                         size: 35,
                         color: Colors.red.withOpacity(.5),
                       ),
-                      title: Text(getReportType(
+                      title: Text(reportsProvider.getReportLabel(
                           snapshot.data[index].reportType ?? 0808)),
                     );
                   },
@@ -99,20 +75,5 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
         pageIndex: 1,
       ),
     );
-  }
-
-  String getReportType(int reportType) {
-    switch (reportType) {
-      case 0808:
-        return "Error cargando el tipo de reporte";
-        break;
-      case 0:
-        return "Reporte Policial";
-        break;
-      case 1:
-        return "Reporte de robo";
-      default:
-        return "Otro tipo de Reporte";
-    }
   }
 }

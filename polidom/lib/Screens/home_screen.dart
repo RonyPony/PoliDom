@@ -8,6 +8,8 @@ import 'package:polidom/Widgets/menu_inferior.dart';
 import 'package:polidom/assets.dart';
 import 'package:polidom/theme/polidomColors.dart';
 
+import 'Categories/othersReports.dart';
+
 class HomeScreen extends StatefulWidget {
   static String routeName = 'home-screen';
   const HomeScreen({Key key}) : super(key: key);
@@ -43,7 +45,11 @@ class _HomeScreenState extends State<HomeScreen> {
             onTap: () {
               Navigator.pushNamed(context, ProfileScreen.routeName);
             },
-            child: profileSvg,
+            child: GestureDetector(
+                onTap: () {
+                  Navigator.pushNamed(context, ProfileScreen.routeName);
+                },
+                child: profileSvg),
           ),
           SizedBox(
             width: MediaQuery.of(context).size.width * .02,
@@ -63,26 +69,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   buildLaunchPads("POLICIA", '+8000 POLICIAS', Colors.blue,
                       SvgAssets.policeIcon, CategoryOneScreen.routeName),
-                  buildLaunchPads("BOMBEROS", "+8000 BOMBERO", Colors.orange,
-                      SvgAssets.fireIcon, ProfileScreen.routeName),
+                  buildLaunchPads("911", "+8000 BOMBERO", Colors.orange,
+                      SvgAssets.fireIcon, OtherReportsScreen.routeName),
                 ],
               ),
-              Row(
-                children: [
-                  buildLaunchPads("ANTIRUIDO", "+8000 POLICIAS", Colors.purple,
-                      SvgAssets.musicIcon, ProfileScreen.routeName),
-                  buildLaunchPads("PARAMEDICOS", "+8000 DOCTORES", Colors.red,
-                      SvgAssets.emergencyIcon, ProfileScreen.routeName),
-                ],
-              ),
-              Row(
-                children: [
-                  buildLaunchPads("PSICOLOGO", "+8000 DOCTORES", Colors.green,
-                      SvgAssets.psicoIcon, ProfileScreen.routeName),
-                  buildLaunchPads("MEDICO", "+8000 MEDICOS", Colors.pink,
-                      SvgAssets.doctorIcon, ProfileScreen.routeName),
-                ],
-              )
+              buildPanicBtn(),
             ],
           ),
         ),
@@ -111,6 +102,58 @@ class _HomeScreenState extends State<HomeScreen> {
       maxRadius: 13,
       foregroundColor: PolidomColors.principal,
       child: Text('5'),
+    );
+  }
+
+  buildPanicBtn() {
+    return Container(
+      margin: EdgeInsets.all(7),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.white.withOpacity(1),
+            Colors.red.withOpacity(1),
+            Colors.blue.withOpacity(1),
+          ],
+        ),
+        color: Colors.white,
+        border: Border.all(
+          width: 0,
+          color: Colors.black.withOpacity(.3),
+        ),
+        borderRadius: BorderRadius.all(Radius.circular(25)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.5),
+            spreadRadius: 10,
+            blurRadius: 7,
+            offset: Offset(0, 3),
+          ),
+        ],
+      ),
+      child: Container(
+        child: Column(
+          children: [
+            Padding(
+                padding: const EdgeInsets.only(top: 30, left: 0),
+                child: SvgPicture.asset(
+                  'images/svg/emergency.svg',
+                  height: 50,
+                )),
+            Padding(
+              padding: const EdgeInsets.only(top: 10, left: 0),
+              child: Text(
+                'Boton de Panico',
+                style: TextStyle(color: Colors.white, fontSize: 30),
+              ),
+            ),
+          ],
+        ),
+        height: MediaQuery.of(context).size.height * .2,
+        width: MediaQuery.of(context).size.width * .95,
+      ),
     );
   }
 

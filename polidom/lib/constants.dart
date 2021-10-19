@@ -13,4 +13,4 @@ const String whatsappClientNumber = "50763054218";
 const String whatsappCommerceNumber = "50763054218";
 const String whatsappDriverNumber = "50763054218";
 
-const String baseApiUrl = "http://54.147.84.242:8015/api";
+const String baseApiUrl = "http://polidom.somee.com/api";

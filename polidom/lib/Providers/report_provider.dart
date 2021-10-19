@@ -14,8 +14,17 @@ class ReportProvider with ChangeNotifier {
     return res;
   }
 
+  String getReportLabel(int reportType) {
+    final res = _reportsService.getReportTypeName(reportType);
+    return res;
+  }
+
   Future<List<Report>> retriveAllReports() async {
     return await _reportsService.getAllReports();
+  }
+
+  Future<Report> getSingleReport(int id) async {
+    return await _reportsService.getReportById(id);
   }
 
   Future<List<Report>> getUserReports(int userId) async {
