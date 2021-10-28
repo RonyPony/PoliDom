@@ -7,6 +7,7 @@ abstract class Assets {
   static const String noImage = 'assets/images/no-image.jpg';
   static const String foodImage = 'assets/images/food.png';
   static String logo = 'assets/images/ohd_logo_with_text.png';
+  static const String naijuanjuan = 'images/911.png';
 }
 
 abstract class SvgAssets {
@@ -24,4 +25,5 @@ abstract class SvgAssets {
   static const String ajustesIcon = 'images/svg/ajustes.svg';
   static const String editIcon = 'images/svg/edit.svg';
   static const String logoutIcon = 'images/svg/logout.svg';
+  static const String gun = 'images/svg/gun.svg';
 }

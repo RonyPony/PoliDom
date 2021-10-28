@@ -47,8 +47,9 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
     );
   }
 
-  Widget buildLaunchPads(String title, String subtitle, Color color, String svg,
-      String routeName) {
+  Widget buildLaunchPads(
+      String title, String subtitle, Color color, String svg, String routeName,
+      [int tipo = 0]) {
     return Container(
       padding: EdgeInsets.all(8),
       child: HomeLaunchPad(
@@ -57,6 +58,7 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
         title: title,
         subtitle: subtitle,
         backgroundColor: color,
+        tipo: tipo,
         onTapRouteName: routeName,
       ),
     );
@@ -83,12 +85,17 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
       ),
       child: Row(
         children: [
-          buildLaunchPads("ROBO", "REPORTA UN ROBO A TU PROPIEDAD",
-              Colors.purple, SvgAssets.policeIcon, PoliceFormScreen.routeName),
+          buildLaunchPads(
+              "ROBO",
+              "REPORTA UN ROBO A TU PROPIEDAD",
+              Colors.purple,
+              SvgAssets.policeIcon,
+              PoliceFormScreen.routeName,
+              1),
           buildLaunchPads("ATRACO", "REPORTA UN NUEVO ASALTO", Colors.blue,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 2),
           buildLaunchPads("RUIDO", "REPORTA MUSICA ALTA", Colors.redAccent,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 3),
         ],
       ),
     );
@@ -116,11 +123,11 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
       child: Row(
         children: [
           buildLaunchPads("VIOLENCIA SEXUAL", "VIOLACIONES", Colors.orange,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 4),
           buildLaunchPads("VIOLENCIA FAMILIAR", "INTRAFAMILIAR", Colors.green,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 5),
           buildLaunchPads("VIOLENCIA CALLEJERA", "VANDALISMO", Colors.pink,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 6),
         ],
       ),
     );
@@ -148,11 +155,11 @@ class _CategoryOneScreenState extends State<CategoryOneScreen> {
       child: Row(
         children: [
           buildLaunchPads("ACCIDENTE DE TRANSITO", "CHOQUES", Colors.orange,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 7),
           buildLaunchPads("VEHICULO ABANDONADO", "CARROS", Colors.green,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 8),
           buildLaunchPads("SUSTANCIAS PROHIVIDAS", "DROGAS", Colors.pink,
-              SvgAssets.policeIcon, ProfileScreen.routeName),
+              SvgAssets.policeIcon, PoliceFormScreen.routeName, 9),
         ],
       ),
     );

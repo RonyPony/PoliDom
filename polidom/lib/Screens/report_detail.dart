@@ -21,12 +21,17 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
     Future<Report> thereport = reportsProvider.getSingleReport(args);
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * .14,
+        toolbarHeight: MediaQuery.of(context).size.height * .10,
         elevation: 0,
+        actions: [],
         centerTitle: true,
-        title: Text(
-          'DETALLES DEL REPORTE $args',
-          style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+        title: Column(
+          children: [
+            Text(
+              'DETALLES DEL REPORTE $args',
+              style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+            ),
+          ],
         ),
       ),
       bottomSheet: MenuInferior(
@@ -41,6 +46,10 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
             return Center(
               child: Column(
                 children: [
+                  reportsProvider.getReportIcon(args),
+                  SizedBox(
+                    height: 10,
+                  ),
                   Text(
                     'Numero del reporte: ${snapshot.data.id}',
                     style: TextStyle(

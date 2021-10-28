@@ -69,8 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   buildLaunchPads("POLICIA", '+8000 POLICIAS', Colors.blue,
                       SvgAssets.policeIcon, CategoryOneScreen.routeName),
-                  buildLaunchPads("911", "+8000 BOMBERO", Colors.orange,
-                      SvgAssets.fireIcon, OtherReportsScreen.routeName),
+                  buildLaunchPads("911", "EMERGENCIAS", Colors.orange,
+                      SvgAssets.emergencyIcon, OtherReportsScreen.routeName),
                 ],
               ),
               buildPanicBtn(),

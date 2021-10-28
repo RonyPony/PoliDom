@@ -8,11 +8,13 @@ class HomeLaunchPad extends StatefulWidget {
   final String subtitle;
   final String svg;
   final String onTapRouteName;
+  final int tipo;
   final bool isSmall;
   const HomeLaunchPad(
       {Key key,
       this.subtitle,
       this.title,
+      this.tipo,
       this.backgroundColor,
       this.svg,
       this.onTapRouteName,
@@ -44,7 +46,8 @@ class _HomeLaunchPadState extends State<HomeLaunchPad> {
     );
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, widget.onTapRouteName);
+        Navigator.pushNamed(context, widget.onTapRouteName,
+            arguments: widget.tipo);
       },
       child: Container(
         child: Column(

@@ -8,10 +8,14 @@ class ReportProvider with ChangeNotifier {
   bool wasSaved = false;
   ReportProvider(this._reportsService);
 
-  Future<bool> placePoliceReport(Report data) async {
+  Future<bool> placePoliceReport(Report data, BuildContext context) async {
     print(data.creationDate);
-    final res = await _reportsService.savePliceReport(data);
+    final res = await _reportsService.savePliceReport(data, context);
     return res;
+  }
+
+  Widget getReportIcon(int reportType) {
+    return _reportsService.getReportIcon(reportType);
   }
 
   String getReportLabel(int reportType) {

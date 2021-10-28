@@ -32,9 +32,9 @@ class _MenuInferiorState extends State<MenuInferior> {
         ),
         BottomNavigationBarItem(
           icon: Icon(
-            Icons.notification_important_rounded,
+            Icons.report_sharp,
           ),
-          label: 'ENTRADA',
+          label: 'REPORTES',
         ),
         BottomNavigationBarItem(
           icon: Icon(

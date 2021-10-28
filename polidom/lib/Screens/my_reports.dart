@@ -26,7 +26,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
     Future<List<Report>> allReports = reportsProvider.retriveAllReports();
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: MediaQuery.of(context).size.height * .14,
+        toolbarHeight: MediaQuery.of(context).size.height * .16,
         elevation: 0,
         centerTitle: true,
         title: Text(
@@ -40,7 +40,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Container(
-                height: MediaQuery.of(context).size.height * .5,
+                height: MediaQuery.of(context).size.height * .7,
                 child: ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
@@ -54,11 +54,8 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                       subtitle: Text(snapshot.data[index].description ??
                           "Sin Descripcion"),
                       trailing: Icon(Icons.arrow_forward_ios_rounded),
-                      leading: Icon(
-                        Icons.local_police,
-                        size: 35,
-                        color: Colors.red.withOpacity(.5),
-                      ),
+                      leading: reportsProvider
+                          .getReportIcon(snapshot.data[index].reportType),
                       title: Text(reportsProvider.getReportLabel(
                           snapshot.data[index].reportType ?? 0808)),
                     );
@@ -66,7 +63,7 @@ class _MyReportsScreenState extends State<MyReportsScreen> {
                 ),
               );
             } else {
-              return CircularProgressIndicator();
+              return Center(child: CircularProgressIndicator());
             }
           },
         ),

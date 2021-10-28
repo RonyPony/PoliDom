@@ -16,7 +16,7 @@ class _PickupLocationScreenState extends State<PickupLocationScreen> {
   Widget build(BuildContext context) {
     SimpleLocationResult _selectedLocation;
     return Scaffold(
-        appBar: AppBar(title: Text('klk')),
+        appBar: AppBar(title: Text('Selecciona la direccion')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

@@ -3,7 +3,7 @@ import 'package:polidom/Models/user_location_model.dart';
 class Report {
   int id;
   int reportType;
-  int reporterUserID;
+  String reporterUserID;
   String creationDate;
   bool isCompleted;
   int assignedAuthorityId;

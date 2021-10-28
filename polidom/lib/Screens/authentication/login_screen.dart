@@ -1,3 +1,4 @@
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:polidom/Models/account_to_login_model.dart';
@@ -5,6 +6,7 @@ import 'package:polidom/Providers/auth_provider.dart';
 import 'package:polidom/Screens/authentication/register_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../assets.dart';
 import '../home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,8 +18,13 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _email = TextEditingController();
-  TextEditingController _pass = TextEditingController();
+  TextEditingController _email = TextEditingController(text: "dfvxbfgcv@1.com");
+  TextEditingController _pass = TextEditingController(text: "12345678910");
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +89,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.blue, borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
+                  CoolAlert.show(
+                      context: context,
+                      type: CoolAlertType.loading,
+                      backgroundColor: Colors.black.withOpacity(.5),
+                      title: "Espere",
+                      flareAsset: Assets.logo,
+                      text: "Cargando...");
                   final authProvider =
                       Provider.of<AuthProvider>(context, listen: false);
                   if (_email.text.length >= 1 && _pass.text.length >= 1) {

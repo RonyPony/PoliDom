@@ -1,16 +1,21 @@
 import 'dart:io';
 
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:polidom/Models/imageUpload.dart';
 import 'package:polidom/Models/report_model.dart';
 import 'package:polidom/Models/user_location_model.dart';
+import 'package:polidom/Providers/auth_provider.dart';
 import 'package:polidom/Providers/location_provider.dart';
+import 'package:polidom/Providers/photo_provider.dart';
 import 'package:polidom/Providers/report_provider.dart';
 import 'package:polidom/Screens/Forms/pickup_location_screen.dart';
 import 'package:polidom/Widgets/menu_inferior.dart';
 import 'package:photo/photo.dart';
 import 'package:photo_manager/photo_manager.dart';
 import 'package:provider/provider.dart';
+import 'package:simple_location_picker/simple_location_picker_screen.dart';
 
 class PoliceFormScreen extends StatefulWidget {
   static String routeName = 'PoliceForm';
@@ -21,15 +26,21 @@ class PoliceFormScreen extends StatefulWidget {
 }
 
 class _PoliceFormScreenState extends State<PoliceFormScreen> {
+  bool _annony = false;
+
+  int _reportType;
   List<File> imagesFiles = List<File>();
   String _selectedLocation = 'Toca para seleccionar la ubicacion del reporte';
   String _reportDescription;
   @override
   Widget build(BuildContext context) {
-    bool monVal = true;
+    final args = ModalRoute.of(context).settings.arguments;
+    _reportType = args;
+    final reportsProvider = Provider.of<ReportProvider>(context, listen: false);
+    print(reportsProvider.getReportLabel(args));
     return Scaffold(
       appBar: AppBar(
-        title: Text('Formulario Policial de Robos'),
+        title: Text('Nuevo ${reportsProvider.getReportLabel(args)}'),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -48,7 +59,6 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
   }
 
   buildReportDetailSection() {
-    bool annony = false;
     return Container(
       margin: EdgeInsets.all(7),
       decoration: BoxDecoration(
@@ -99,12 +109,20 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
                 GestureDetector(
                   onTap: () {
                     setState(() {
-                      annony = !annony;
+                      validateAnn();
                     });
                   },
                   child: Chip(
-                      backgroundColor:
-                          !annony ? Colors.transparent : Colors.blue,
+                      avatar: _annony
+                          ? Icon(
+                              Icons.done_outline_outlined,
+                              color: Colors.red,
+                            )
+                          : Icon(
+                              Icons.blur_circular_rounded,
+                              color: Colors.red,
+                            ),
+                      backgroundColor: !_annony ? Colors.grey : Colors.green,
                       label: Text('Enviar de forma anonima')),
                 )
               ],
@@ -143,6 +161,7 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
       textColor: Colors.white,
       // text color
       thumbSize: 150,
+
       // preview thumb size , default is 64
       sortDelegate: SortDelegate.common,
       // default is common ,or you make custom delegate to sort your gallery
@@ -232,7 +251,7 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
               ))
             ],
           ),
-          height: MediaQuery.of(context).size.height * .3,
+          height: MediaQuery.of(context).size.height * .5,
           width: MediaQuery.of(context).size.width * .95,
         ),
       ),
@@ -362,21 +381,34 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
           borderRadius: BorderRadius.circular(20)),
       child: FlatButton(
         onPressed: () async {
+          final authProvider =
+              Provider.of<AuthProvider>(context, listen: false);
           final locationProvider =
               Provider.of<LocationProvider>(context, listen: false);
           final reportsProvider =
               Provider.of<ReportProvider>(context, listen: false);
+
+          final photoProvider =
+              Provider.of<PhotoProvider>(context, listen: false);
           if (locationProvider.wasSaved) {
+            List<ImageUpload> _photos = List<ImageUpload>();
+            imagesFiles.forEach((element) {
+              ImageUpload info =
+                  ImageUpload(reportId: 1, photo: File(element.path));
+              _photos.add(info);
+            });
             Map loc = await locationProvider.getSelectedAddress();
             final UserLocation locacion = getLocationFromMap(loc);
             Report policeReport = Report();
             policeReport.creationDate = DateTime.now().toString();
             policeReport.description = _reportDescription;
-            policeReport.reportType = 1;
-            policeReport.reporterUserID = 132;
+            policeReport.reportType = _reportType;
+            policeReport.reporterUserID = await authProvider.getCurrentUserId();
             policeReport.ubicacion = locacion;
-
-            reportsProvider.placePoliceReport(policeReport);
+            photoProvider.saveImage(_photos, context);
+            reportsProvider.placePoliceReport(policeReport, context);
+          } else {
+            print('No locations selected');
           }
         },
         child: Text(
@@ -395,5 +427,27 @@ class _PoliceFormScreenState extends State<PoliceFormScreen> {
           Text(title),
           Checkbox(value: initValue, onChanged: (b) => onChanged(b))
         ]);
+  }
+
+  void validateAnn() {
+    CoolAlert.show(
+        context: context,
+        type: CoolAlertType.confirm,
+        onConfirmBtnTap: () {
+          _annony = true;
+          Navigator.pop(context);
+          setState(() {});
+        },
+        onCancelBtnTap: () {
+          _annony = false;
+          setState(() {});
+          Navigator.pop(context);
+        },
+        confirmBtnColor: Colors.red,
+        title: "",
+        cancelBtnText: "NO",
+        confirmBtnText: "SI",
+        barrierDismissible: true,
+        text: "Quiere enviar este reporte anonimamente?");
   }
 }

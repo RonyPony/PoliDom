@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:polidom/Contracts/auth_contract.dart';
+import 'package:polidom/Contracts/photo_contract.dart';
 import 'package:polidom/Providers/auth_provider.dart';
 import 'package:polidom/Providers/location_provider.dart';
+import 'package:polidom/Providers/photo_provider.dart';
 import 'package:polidom/Screens/authentication/login_screen.dart';
+import 'package:polidom/Services/photo_service.dart';
 import 'package:polidom/routes.dart';
 import 'package:provider/provider.dart';
 import 'Contracts/reports_contract.dart';
@@ -18,7 +21,7 @@ void main() {
 
 class PolidomApp extends StatelessWidget {
   ReportServiceContract _reportContract;
-
+  PhotoServiceContract _photoContract;
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -27,7 +30,10 @@ class PolidomApp extends StatelessWidget {
             create: (context) => LocationProvider(AddressService())),
         ChangeNotifierProvider(
             create: (context) => ReportProvider(ReportService())),
-        ChangeNotifierProvider(create: (context) => AuthProvider(AuthService()))
+        ChangeNotifierProvider(
+            create: (context) => AuthProvider(AuthService())),
+        ChangeNotifierProvider(
+            create: (context) => PhotoProvider(PhotoService())),
       ],
       child: MaterialApp(
         routes: getAllRoutes(),
