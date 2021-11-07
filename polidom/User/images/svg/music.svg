@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="68" height="55" viewBox="0 0 68 55">
+  <defs>
+   
+  </defs>
+  <g id="Group_11" data-name="Group 11" transform="translate(-32 -320)">
+    <rect id="Rectangle_13_copy_8" data-name="Rectangle 13 copy 8" width="35" height="35" rx="10" transform="translate(32 320)" fill="#0b1f87" opacity="0.102"/>
+    <g id="Mask_Group_4" data-name="Mask Group 4" transform="translate(-56 -7)" clip-path="url(#clip-path)">
+      <g id="__TEMP__SVG__" transform="translate(101 332)">
+        <path id="Path_1" data-name="Path 1" d="M28.125,12.5A3.125,3.125,0,1,1,25,9.375,3.125,3.125,0,0,1,28.125,12.5ZM20.313,32.813A4.687,4.687,0,1,1,25,37.5,4.688,4.688,0,0,1,20.313,32.813Z" fill="#62388b"/>
+        <path id="Path_2" data-name="Path 2" d="M12.5,0A6.25,6.25,0,0,0,6.25,6.25v37.5A6.25,6.25,0,0,0,12.5,50h25a6.25,6.25,0,0,0,6.25-6.25V6.25A6.25,6.25,0,0,0,37.5,0ZM31.25,12.5A6.25,6.25,0,1,1,25,6.25,6.25,6.25,0,0,1,31.25,12.5ZM25,21.875A10.938,10.938,0,1,0,35.938,32.813,10.937,10.937,0,0,0,25,21.875Z" fill="#62388b" fill-rule="evenodd"/>
+      </g>
+    </g>
+  </g>
+</svg>
