@@ -27,12 +27,24 @@ class ReportProvider with ChangeNotifier {
     return await _reportsService.getCount();
   }
 
+  Future<bool> assignToAuthority(Report reportId, String authorityId) async {
+    return await _reportsService.assignAuthority(reportId, authorityId);
+  }
+
   Future<List<Report>> retriveAllReports() async {
     return await _reportsService.getAllReports();
   }
 
   Future<Report> getSingleReport(int id) async {
     return await _reportsService.getReportById(id);
+  }
+
+  Future<Report> getAssignedReport(Future<String> authorityId) async {
+    return await _reportsService.getAssignedReport(await authorityId);
+  }
+
+  Future<Report> getCurrentAssignedReport() async {
+    return await _reportsService.getCurrentAssignedReport();
   }
 
   Future<List<Report>> getUserReports(int userId) async {

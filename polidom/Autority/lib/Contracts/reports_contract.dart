@@ -14,10 +14,11 @@ abstract class ReportServiceContract {
 
   Future<List<Report>> getAllReports();
   Future<Report> getReportById(int id);
+  Future<Report> getAssignedReport(String authorityId);
 
   String getReportTypeName(int reportType);
 
   Future<int> getCount();
-
+  Future<bool> assignAuthority(Report report, String authorityId);
   Future<List<Report>> getUserReports(int userId);
 }

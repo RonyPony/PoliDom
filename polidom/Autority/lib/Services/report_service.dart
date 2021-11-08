@@ -7,10 +7,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Autority/Contracts/reports_contract.dart';
 import 'package:Autority/Models/report_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../constants.dart';
 
 class ReportService implements ReportServiceContract {
+  String SAVED_ASSIGNEDREPORT_KEY = "informacion-del-usuario";
+
   @override
   Future<List<Report>> getUserReports(int userId) {
     print('ok');
@@ -55,71 +58,75 @@ class ReportService implements ReportServiceContract {
     } catch (e) {}
   }
 
-  Widget getReportIcon(int reportType) {
+  Icon getReportIcon(int reportType) {
     switch (reportType) {
       case 0808:
         return Icon(Icons.local_police);
         break;
-      case 0:
-        return Icon(Icons.local_police);
-        break;
       case 1:
+        return Icon(
+          Icons.gps_fixed_rounded,
+          size: 40,
+          color: Colors.red,
+        );
+        break;
+      case 2:
         return Icon(
           Icons.local_police,
           size: 50,
           color: Colors.blue,
         );
         break;
-      case 2:
+      case 3:
         return Icon(
           Icons.person_pin_outlined,
           size: 40,
           color: Colors.red,
         );
         break;
-      case 3:
+      case 4:
         return Icon(
           Icons.speaker_rounded,
           size: 40,
           color: Colors.green,
         );
         break;
-      case 4:
+      case 5:
         return Icon(
           Icons.donut_small_rounded,
           size: 40,
           color: Colors.deepPurpleAccent,
         );
         break;
-      case 5:
+      case 6:
         return Icon(
           Icons.airline_seat_flat_angled_sharp,
           size: 40,
           color: Colors.lime,
         );
         break;
-      case 6:
+      case 7:
         return Icon(
           Icons.format_strikethrough_rounded,
           size: 40,
           color: Colors.deepOrange,
         );
         break;
-      case 7:
+      case 8:
         return Icon(
           Icons.car_repair,
           size: 40,
           color: Colors.pinkAccent,
         );
         break;
-      case 8:
+      case 9:
         return Icon(
           Icons.car_rental,
           size: 40,
           color: Colors.amberAccent,
         );
         break;
-      case 9:
+      case 10:
         return Icon(
           Icons.delete_forever_outlined,
           size: 40,
@@ -137,40 +144,40 @@ class ReportService implements ReportServiceContract {
       case 0808:
         return "Error cargando el tipo de reporte";
         break;
-      case 0:
-        return "XXX";
-        break;
       case 1:
-        return "Reporte Policial de Robo";
+        return "PANICO";
         break;
       case 2:
-        return "Reporte Policial de Atraco";
+        return "Reporte Policial de Robo";
         break;
       case 3:
-        return "Reporte Policial de ruido y contaminacion sonora";
+        return "Reporte Policial de Atraco";
         break;
       case 4:
-        return "Reporte Policial de violencia sexual";
+        return "Reporte Policial de ruido y contaminacion sonora";
         break;
       case 5:
-        return "Reporte Policial de violencia familiar";
+        return "Reporte Policial de violencia sexual";
         break;
       case 6:
-        return "Reporte Policial de violencia callejera";
+        return "Reporte Policial de violencia familiar";
         break;
       case 7:
-        return "Reporte Policial de accidente de transito";
+        return "Reporte Policial de violencia callejera";
         break;
       case 8:
-        return "Reporte Policial de vehiculo abandonado";
+        return "Reporte Policial de accidente de transito";
         break;
       case 9:
-        return "Reporte Policial de drogas o sustancias prohividas";
+        return "Reporte Policial de vehiculo abandonado";
         break;
       case 10:
-        return "Reporte de emergencia paramedico";
+        return "Reporte Policial de drogas o sustancias prohividas";
         break;
       case 11:
+        return "Reporte de emergencia paramedico";
+        break;
+      case 12:
         return "Reporte de incendio";
         break;
       default:
@@ -189,6 +196,26 @@ class ReportService implements ReportServiceContract {
     } catch (e) {}
   }
 
+  void saveCurrentAssignedReport(Report data) async {
+    try {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      final jsonData = jsonEncode(data);
+      await sharedPreferences.setString(SAVED_ASSIGNEDREPORT_KEY, jsonData);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  Future<Report> getCurrentAssignedReport() async {
+    final sharedPreferences = await SharedPreferences.getInstance();
+    final savedUserJson = sharedPreferences.getString(SAVED_ASSIGNEDREPORT_KEY);
+    if (savedUserJson != null) {
+      final decodedJson = jsonDecode(savedUserJson);
+      Report report = Report.fromJson(decodedJson);
+      return report;
+    }
+  }
+
   @override
   Future<int> getCount() async {
     try {
@@ -196,5 +223,45 @@ class ReportService implements ReportServiceContract {
       Response response = await dio.get('$baseApiUrl/reports/count');
       return response.data;
     } catch (e) {}
+  }
+
+  @override
+  Future<bool> assignAuthority(Report report, String authorityId) async {
+    try {
+      var dio = Dio();
+      Response response = await dio.post(
+        '$baseApiUrl/reports/assign?reportId=${report.id}&accountId=$authorityId',
+        options: Options(headers: {
+          HttpHeaders.contentTypeHeader: "application/json",
+        }),
+      );
+      if (response.statusCode == 200) {
+        Future<bool> result =
+            Future.delayed(Duration(milliseconds: 1), () => true);
+        saveCurrentAssignedReport(report);
+        return result;
+      } else {
+        Future<bool> result =
+            Future.delayed(Duration(milliseconds: 1), () => false);
+        return result;
+      }
+    } catch (e) {
+      print(e.toString());
+      return false;
+    }
+  }
+
+  @override
+  Future<Report> getAssignedReport(String authorityId) async {
+    try {
+      var dio = Dio();
+      Response response =
+          await dio.get('$baseApiUrl/reports/account?accountId=$authorityId');
+
+      Report reporte = Report.fromJson(response.data);
+      return reporte;
+    } catch (e) {
+      print(e);
+    }
   }
 }

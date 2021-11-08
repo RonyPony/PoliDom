@@ -99,16 +99,20 @@ class AuthService implements AuthServiceContract {
   }
 
   int getRoleNumber(AccountToRegister info) {
-    // switch (info.role) {
-    //   case UserRoleType.admin:
-    //     return 1;
-    //   case UserRoleType.client:
-    //     return 2;
-    //   case UserRoleType.user:
-    //     return 3;
-    //   default:
-    //     return 0;
-    // }
+    //  /// <summary>
+    //     /// Admin option
+    //     /// </summary>
+    //     Admin = 1 ,
+
+    //     /// <summary>
+    //     /// Complainant option
+    //     /// </summary>
+    //     Complainant = 2,
+
+    //     /// <summary>
+    //     /// Authority option
+    //     /// </summary>
+    //     Authority = 3
   }
 
   @override

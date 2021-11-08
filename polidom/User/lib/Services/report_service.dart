@@ -28,11 +28,20 @@ class ReportService implements ReportServiceContract {
         }),
         data: jsonEncode(data),
       );
+      print(response.request.data);
       if (data.reportType != 1) {
-        CoolAlert.show(
-            context: context,
-            type: CoolAlertType.info,
-            text: response.statusMessage);
+        if (response.statusCode == 200) {
+          CoolAlert.show(
+              context: context,
+              type: CoolAlertType.success,
+              title: "Creado",
+              text: "Reporte creado con exito");
+        } else {
+          CoolAlert.show(
+              context: context,
+              type: CoolAlertType.info,
+              text: response.statusMessage);
+        }
       }
       return response.data;
     } catch (e) {

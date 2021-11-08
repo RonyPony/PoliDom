@@ -1,8 +1,15 @@
+import 'package:Autority/Models/account_info.dart';
+import 'package:Autority/Providers/auth_provider.dart';
+import 'package:Autority/Providers/photo_provider.dart';
+import 'package:Autority/Screens/reportImages.dart';
+import 'package:Autority/theme/AutorityColors.dart';
+import 'package:cool_alert/cool_alert.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:Autority/Models/report_model.dart';
 import 'package:Autority/Providers/report_provider.dart';
 import 'package:Autority/Widgets/menu_inferior.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:provider/provider.dart';
 
 class ReportDetailsScreen extends StatefulWidget {
@@ -17,6 +24,8 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context).settings.arguments;
+    final photosProvider = Provider.of<PhotoProvider>(context, listen: false);
+    final _authProvider = Provider.of<AuthProvider>(context, listen: false);
     final reportsProvider = Provider.of<ReportProvider>(context, listen: false);
     Future<Report> thereport = reportsProvider.getSingleReport(args);
     return Scaffold(
@@ -37,16 +46,21 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
       bottomSheet: MenuInferior(
         pageIndex: 1,
       ),
-      body: Container(
-          child: FutureBuilder<Report>(
+      body: FutureBuilder<Report>(
         future: thereport,
         builder: (context, snapshot) {
           if (snapshot.hasData &&
               snapshot.connectionState == ConnectionState.done) {
+            Future<List<Image>> _photos =
+                photosProvider.getAllImagesByReportId(snapshot.data.id);
+            Future<AccountInfo> ftCreatorUser = _authProvider.getCurrentUser(
+                Future.delayed(
+                    Duration(seconds: 2), () => snapshot.data.reporterUserID));
+
             return Center(
               child: Column(
                 children: [
-                  reportsProvider.getReportIcon(args),
+                  reportsProvider.getReportIcon(snapshot.data.reportType),
                   SizedBox(
                     height: 10,
                   ),
@@ -55,7 +69,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -66,19 +80,36 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 10,
                   ),
                   Text(
-                    'Reportado por: ${snapshot.data.reporterUserID}',
+                    'Reportado por: ',
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
+                  ),
+                  FutureBuilder<AccountInfo>(
+                    future: ftCreatorUser,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(snapshot.data.name);
+                      } else {
+                        if (snapshot.hasError) {
+                          return Text('Error cargando el usuario');
+                        }
+                        if (!snapshot.hasData &&
+                            snapshot.connectionState == ConnectionState.done) {
+                          return Text('*Sin Usuario*');
+                        }
+                        return CircularProgressIndicator();
+                      }
+                    },
                   ),
                   SizedBox(
                     height: 10,
@@ -88,7 +119,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -99,7 +130,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -110,18 +141,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    '- UBICACION -',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -132,7 +152,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -143,18 +163,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Localidad: ${snapshot.data.ubicacion.localidad}',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -165,7 +174,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -176,7 +185,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -187,7 +196,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -198,18 +207,7 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
-                        fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    'Codigo postal: ${snapshot.data.ubicacion.zipCode}',
-                    style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
@@ -220,17 +218,163 @@ class _ReportDetailsScreenState extends State<ReportDetailsScreen> {
                     style: TextStyle(
                         fontSize: 15,
                         fontFamily: "Times New Roman",
-                        color: Colors.red[600],
+                        color: Colors.purple,
                         fontWeight: FontWeight.bold),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 10, right: 10),
+                        child: Container(
+                          height: 40,
+                          width: 160,
+                          decoration: BoxDecoration(
+                              color: AutorityColors.principal,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: FlatButton(
+                            onPressed: () {
+                              Navigator.pushNamed(
+                                  context, ReportImagesScreen.routeName,
+                                  arguments: _photos);
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.photo_library_sharp,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Imagenes',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Container(
+                          height: 40,
+                          width: 140,
+                          decoration: BoxDecoration(
+                              color: AutorityColors.principal,
+                              borderRadius: BorderRadius.circular(20)),
+                          child: FlatButton(
+                            onPressed: () {
+                              CoolAlert.show(
+                                  context: context,
+                                  type: CoolAlertType.confirm,
+                                  title: "Asignacion de caso",
+                                  onConfirmBtnTap: () async {
+                                    assignCase(
+                                        snapshot.data,
+                                        await _authProvider.getCurrentUserId(),
+                                        reportsProvider);
+                                  },
+                                  text:
+                                      "Estas seguro que quieres atender el ${reportsProvider.getReportLabel(snapshot.data.reportType)} numero ${snapshot.data.id}");
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.local_police_outlined,
+                                  color: Colors.white,
+                                ),
+                                SizedBox(
+                                  width: 10,
+                                ),
+                                Text(
+                                  'Atender',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, right: 10),
+                    child: Container(
+                      height: 40,
+                      width: 200,
+                      decoration: BoxDecoration(
+                          color: AutorityColors.principal,
+                          borderRadius: BorderRadius.circular(20)),
+                      child: FlatButton(
+                        onPressed: () {
+                          MapsLauncher.launchCoordinates(
+                              snapshot.data.ubicacion.latitude,
+                              snapshot.data.ubicacion.longitude,
+                              reportsProvider
+                                  .getReportLabel(snapshot.data.reportType));
+                        },
+                        child: Row(
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.white,
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Text(
+                              'Ver en el mapa',
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 18),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
-      )),
+      ),
     );
+  }
+
+  Future<void> assignCase(
+      Report report, String authorityId, ReportProvider reportsProvider) async {
+    bool assigned =
+        await reportsProvider.assignToAuthority(report, authorityId);
+    if (assigned) {
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          cancelBtnText: 'No',
+          confirmBtnText: 'Vamos!',
+          onConfirmBtnTap: () async {
+            print('Iniciando Navegacion');
+
+            MapsLauncher.launchCoordinates(
+                report.ubicacion.latitude,
+                report.ubicacion.longitude,
+                reportsProvider.getReportLabel(report.reportType));
+            Navigator.pop(context);
+          },
+          title: 'Iniciar Ruta',
+          text:
+              "Caso signado correctamente, quieres iniciar la navegacion hacia la ubicacion del reporte?");
+    } else {
+      CoolAlert.show(
+          context: context,
+          type: CoolAlertType.error,
+          text: "Error Asignando el caso",
+          title: "Error");
+    }
   }
 }

@@ -21,7 +21,7 @@ class Report {
   Report.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     reportType = json['reportType'];
-    reporterUserID = json['reporterUserID'];
+    reporterUserID = json['reporterUserId'];
     creationDate = json['creationDate'];
     ubicacion = json['ubicacion'] != null
         ? new UserLocation.fromJson(json['ubicacion'])

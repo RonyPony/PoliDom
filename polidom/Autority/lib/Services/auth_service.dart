@@ -37,7 +37,12 @@ class AuthService implements AuthServiceContract {
         CoolAlert.show(
             context: context,
             type: CoolAlertType.error,
-            text: e.response.data.toString());
+            text: e.response.data
+                .toString()
+                .replaceAll("{", '')
+                .replaceAll("[", '')
+                .replaceAll("}", '')
+                .replaceAll("]", ''));
       }
       print(e.response.data);
       return false;
@@ -57,6 +62,10 @@ class AuthService implements AuthServiceContract {
         }),
         data: json,
       );
+      if (response.statusCode == 201) {
+        CoolAlert.show(
+            context: context, type: CoolAlertType.success, title: "Hecho");
+      }
       print(
           'Respuesta del api >${response.statusCode} - ${response.statusMessage}');
       return 1;
@@ -65,7 +74,12 @@ class AuthService implements AuthServiceContract {
         CoolAlert.show(
             context: context,
             type: CoolAlertType.error,
-            text: e.response.data.toString());
+            text: e.response.data
+                .toString()
+                .replaceAll("{", '')
+                .replaceAll("[", '')
+                .replaceAll("}", '')
+                .replaceAll("]", ''));
       }
       print(e.response.data);
       return 0;

@@ -39,7 +39,7 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   SvgPicture logout = SvgPicture.asset(
     SvgAssets.logoutIcon,
-    color: Colors.purple.withOpacity(.5),
+    color: Colors.white.withOpacity(.5),
     placeholderBuilder: (context) => CircularProgressIndicator(),
     height: 30,
   );
@@ -68,9 +68,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     if (_phoneNumber.text.length <= 1) {
       fields.add("Numero Telefonico no puede estar vacio");
-    }
-    if (_password1.text.length <= 1) {
-      fields.add("Clave no puede estar vacio");
     }
     return fields;
   }
@@ -122,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           padding: EdgeInsets.only(left: 20),
           child: SvgPicture.asset(
             SvgAssets.editIcon,
-            color: Colors.purple.withOpacity(.5),
+            color: Colors.white.withOpacity(.5),
           ),
         ),
         actions: [
@@ -174,7 +171,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: Icon(
                       Icons.person_pin,
                       size: 100,
-                      color: Colors.red.withOpacity(.5),
+                      color: Colors.purple.withOpacity(.5),
                     )),
                   ),
                   Padding(
@@ -240,7 +237,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     height: MediaQuery.of(context).size.height * .1,
                     width: MediaQuery.of(context).size.width * .9,
                     decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(.5),
+                        color: Colors.purple.withOpacity(.5),
                         borderRadius: BorderRadius.circular(20)),
                     child: FlatButton(
                       onPressed: () async {
@@ -280,7 +277,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
             );
           } else {
-            return CircularProgressIndicator();
+            return Center(child: CircularProgressIndicator());
           }
         },
       ),

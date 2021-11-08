@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Future<int> allReportsCount = reportsProvider.getCount();
     SvgPicture profileSvg = SvgPicture.asset(
       SvgAssets.accountIcon,
-      color: AutorityColors.oscuro,
+      color: Colors.white.withOpacity(.5),
       placeholderBuilder: (context) => CircularProgressIndicator(),
       height: MediaQuery.of(context).size.height * .06,
     );
@@ -45,7 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
               fontSize: 25, fontWeight: FontWeight.bold, fontFamily: "roboto"),
         ),
         actions: [
-          buildReportCaunter(),
           SizedBox(
             width: MediaQuery.of(context).size.width * .02,
           ),
@@ -114,15 +113,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: color,
         onTapRouteName: routeName,
       ),
-    );
-  }
-
-  buildReportCaunter() {
-    return CircleAvatar(
-      backgroundColor: AutorityColors.secundario.withOpacity(.7),
-      maxRadius: 13,
-      foregroundColor: AutorityColors.principal,
-      child: Text('5'),
     );
   }
 

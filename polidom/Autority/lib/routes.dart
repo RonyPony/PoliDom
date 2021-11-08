@@ -10,6 +10,7 @@ import 'package:Autority/Screens/perfil.dart';
 
 import 'Screens/Forms/location_picker.dart';
 import 'Screens/Forms/pickup_location_screen.dart';
+import 'Screens/reportImages.dart';
 import 'Screens/report_detail.dart';
 
 Map<String, WidgetBuilder> getAllRoutes() {
@@ -29,5 +30,7 @@ Map<String, WidgetBuilder> getAllRoutes() {
         PickupLocationScreen(),
     ReportDetailsScreen.routeName: (BuildContext context) =>
         ReportDetailsScreen(),
+    ReportImagesScreen.routeName: (BuildContext context) =>
+        ReportImagesScreen(),
   };
 }

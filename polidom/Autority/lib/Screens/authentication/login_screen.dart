@@ -1,3 +1,4 @@
+import 'package:Autority/Models/account_info.dart';
 import 'package:Autority/constants.dart';
 import 'package:Autority/theme/AutorityColors.dart';
 import 'package:cool_alert/cool_alert.dart';
@@ -20,7 +21,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  TextEditingController _email = TextEditingController(text: "dfvxbfgcv@1.com");
+  TextEditingController _email = TextEditingController(text: "2@2.com");
   TextEditingController _pass = TextEditingController(text: "12345678910");
   @override
   void initState() {
@@ -92,22 +93,43 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(20)),
               child: FlatButton(
                 onPressed: () async {
-                  CoolAlert.show(
-                      context: context,
-                      type: CoolAlertType.loading,
-                      backgroundColor: Colors.black.withOpacity(.5),
-                      title: "Espere",
-                      flareAsset: Assets.logo,
-                      text: "Cargando...");
                   final authProvider =
                       Provider.of<AuthProvider>(context, listen: false);
                   if (_email.text.length >= 1 && _pass.text.length >= 1) {
                     AccountToLogin loginInfo = AccountToLogin(
                         email: _email.text, password: _pass.text);
+                    CoolAlert.show(
+                        context: context,
+                        type: CoolAlertType.loading,
+                        backgroundColor: Colors.black.withOpacity(.5),
+                        title: "Espere",
+                        flareAsset: Assets.logo,
+                        text: "Validando Credenciales...");
                     if (await authProvider.login(loginInfo, context)) {
-                      Navigator.pushNamedAndRemoveUntil(
-                          context, HomeScreen.routeName, (route) => false);
+                      bool isAuthority = false;
+                      Future<String> userId = authProvider.getCurrentUserId();
+                      AccountInfo userInfo =
+                          await authProvider.getCurrentUser(userId);
+                      if (userInfo.role == 3) {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, HomeScreen.routeName, (route) => false);
+                      } else {
+                        setState(() {
+                          CoolAlert.show(
+                              context: context,
+                              type: CoolAlertType.info,
+                              title: "Informacion de la cuenta",
+                              text:
+                                  "Hemos validado la informacion pero esta cuenta es solo para usuario, debes acceder con una cuenta de autoridad para poder atender reportes.");
+                        });
+                      }
                     }
+                  } else {
+                    CoolAlert.show(
+                        context: context,
+                        type: CoolAlertType.warning,
+                        title: "Informacion incompleta",
+                        text: "Ingresa correo y clave");
                   }
                 },
                 child: Text(
@@ -120,7 +142,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 130,
             ),
             GestureDetector(
-              child: Text('New User? Create Account'),
+              child: Text('Eres autoridad? crea una cuenta.'),
               onTap: () {
                 Navigator.pushNamed(context, RegisterScreen.routeName);
               },

@@ -146,7 +146,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _newUser.name = _nombre.text;
                       _newUser.password = _password1.text;
                       _newUser.userName = _nombre.text;
-                      _newUser.role = 0; //UserRoleType.admin;
+                      _newUser.role = 3; //UserRoleType.admin;
                       // _newUser.registerDate = DateTime.now();
                       await authProvider.register(_newUser, context);
                       // "name": "ronel",

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:Autority/Models/reportImages.dart';
 import 'package:cool_alert/cool_alert.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -27,6 +28,30 @@ class PhotoService implements PhotoServiceContract {
   Future<bool> getPhotoById(AccountToLogin info, BuildContext context) {
     // TODO: implement getPhotoById
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<ReportImage>> getImagesByReportId(int reportId) async {
+    try {
+      var dio = Dio();
+      Response response =
+          await dio.get('$baseApiUrl/photos/report?reportId=$reportId');
+      List lista;
+      List<ReportImage> returningList = List<ReportImage>();
+      if (response.data is List) {
+        lista = response.data;
+      }
+      lista.forEach((element) {
+        String jsoned = jsonEncode(element);
+        ReportImage tmpImage = ReportImage.fromJson(element);
+        print(jsoned);
+        returningList.add(tmpImage);
+      });
+
+      return returningList;
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override
