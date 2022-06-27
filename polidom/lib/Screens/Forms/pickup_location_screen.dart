@@ -53,7 +53,6 @@ class _SelectExactLocationScreenState extends State<SelectExactLocationScreen> {
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      resizeToAvoidBottomPadding: true,
       body: FutureBuilder(
           future: locationPermissionFuture,
           builder: (context, snapshot) {
