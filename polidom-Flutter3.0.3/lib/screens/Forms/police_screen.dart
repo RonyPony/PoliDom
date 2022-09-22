@@ -9,6 +9,7 @@ import 'package:polidom2/providers/report_provider.dart';
 import 'package:polidom2/screens/Forms/pickup_location_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../Widgets/flatBtn.dart';
 import '../../Widgets/menu_inferior.dart';
 import '../../models/image_upload_model.dart';
 import '../../models/report_model.dart';

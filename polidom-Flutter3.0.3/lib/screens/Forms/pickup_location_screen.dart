@@ -9,6 +9,7 @@ import 'package:permission_handler/permission_handler.dart'
 import 'package:provider/provider.dart';
 import 'package:search_map_place_updated/search_map_place_updated.dart';
 
+import '../../Widgets/flatBtn.dart';
 import '../../providers/location_provider.dart';
 
 class SelectExactLocationScreen extends StatefulWidget {

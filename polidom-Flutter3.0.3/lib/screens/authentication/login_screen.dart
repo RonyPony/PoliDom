@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:polidom2/screens/authentication/register_screen.dart';
 import 'package:provider/provider.dart';
 
+import '../../Widgets/flatBtn.dart';
 import '../../assets.dart';
 import '../../models/account_to_login_model.dart';
 import '../../providers/auth_provider.dart';

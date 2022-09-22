@@ -18,6 +18,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
+import '../Widgets/flatBtn.dart';
 import '../Widgets/menu_inferior.dart';
 import '../assets.dart';
 import '../models/account_info_model.dart';
